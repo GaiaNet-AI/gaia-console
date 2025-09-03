@@ -6,6 +6,7 @@
 
 A web-based platform for converting raw knowledge base files into deployable vector database snapshots for the Gaia Network. Upload your documents, get AI-powered embeddings, and deploy instantly to your Gaia Node.
 
+<img width="1550" height="1574" alt="image" src="https://github.com/user-attachments/assets/be49c308-37e0-4f59-bb32-395c5f1c8845" />
 
 
 ## Features
