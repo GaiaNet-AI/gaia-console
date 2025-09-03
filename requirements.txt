@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+aiofiles
+qdrant-client
+python-multipart
+markitdown[all]
+huggingface-hub
+requests
+sentence-transformers
+numpy
+llama-cpp-python
+python-dotenv
+sse-starlette
