@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2025-09-01
+
+### Added
+- Auto deployment to DigitalOcean
+- Fixed snapshot compression issues
+- Resolved permissions on huggingface datasets
+- Enhanced logging 
+- Added deployment status tracker
+
+
+### Technical Details
+- FastAPI backend
+- Qdrant vector database
+- WasmEdge for model inference
+- Tailwind CSS for styling
+
 ## [1.0.0] - 2025-09-01
 
 ### Added

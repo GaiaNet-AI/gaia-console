@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deployment Status</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-6">Deployment Status</h1>
+        <div id="status" class="bg-white p-6 rounded-lg shadow">
+            <div class="flex items-center">
+                <div id="spinner" class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mr-3"></div>
+                <span id="status-text">Deploying...</span>
+            </div>
+            <div id="logs" class="mt-4 bg-gray-50 p-4 rounded max-h-64 overflow-y-auto"></div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const dropletId = urlParams.get('droplet_id');
+
+            if (!dropletId) {
+                document.getElementById('status-text').textContent = 'No droplet ID provided';
+                return;
+            }
+
+            const eventSource = new EventSource(`/events/${dropletId}`);
+            const logsContainer = document.getElementById('logs');
+
+            eventSource.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+
+                if (data.snapshot) {
+                    updateStatus(data.snapshot);
+                }
+
+                if (data.message) {
+                    const logEntry = document.createElement('div');
+                    logEntry.className = 'text-sm text-gray-700 mb-1';
+                    logEntry.textContent = `[${new Date(data.ts * 1000).toLocaleTimeString()}] ${data.message}`;
+                    logsContainer.appendChild(logEntry);
+                    logsContainer.scrollTop = logsContainer.scrollHeight;
+                }
+            };
+
+            eventSource.onerror = function() {
+                document.getElementById('status-text').textContent = 'Connection lost';
+            };
+
+            function updateStatus(snapshot) {
+                const statusText = document.getElementById('status-text');
+                statusText.textContent = `Status: ${snapshot.status}`;
+
+                if (snapshot.ip) {
+                    statusText.textContent += ` | IP: ${snapshot.ip}`;
+                }
+
+                if (snapshot.gaia_url) {
+                    statusText.innerHTML += ` | <a href="${snapshot.gaia_url}" target="_blank" class="text-blue-600">Open Gaia Node</a>`;
+                    document.getElementById('spinner').classList.add('hidden');
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

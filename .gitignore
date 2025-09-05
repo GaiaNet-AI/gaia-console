@@ -344,3 +344,6 @@ venv/
 # IDE
 .vscode/
 .idea/
+
+do_gaia_console
+do_gaia_console.pub

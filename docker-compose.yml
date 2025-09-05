@@ -21,6 +21,8 @@ services:
       - snapshots:/app/snapshots
       - ./wasm:/app/wasm:ro
       - ./models:/app/models:ro
+      - ./do_gaia_console:/app/do_gaia_console:ro
+      - ./.env:/app/.env
     environment:
       - HF_TOKEN=${HF_TOKEN:-your_hugging_face_token_here}
       - QDRANT_URL=http://qdrant:6333

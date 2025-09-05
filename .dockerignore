@@ -17,3 +17,5 @@ docker-compose.yml
 uploads/
 embeddings/
 snapshots/
+models/
+wasm/
