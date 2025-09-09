@@ -1,0 +1,26 @@
+name: gaia-knowledge-generator
+services:
+- name: web
+  github:
+    repo: your-username/gaia-repo
+    branch: main
+    deploy_on_push: true
+  source_dir: /
+  run_command: python download-models.sh && uvicorn main:app --host 0.0.0.0 --port 8000
+  instance_size_slug: professional-xs
+  instance_count: 1
+  http_port: 8000
+  routes:
+  - path: /
+  envs:
+  - key: ENVIRONMENT
+    value: production
+  - key: LOG_LEVEL
+    value: INFO
+  - key: MAX_FILE_SIZE
+    value: "10485760"
+
+# Persistent storage for models
+volume_mounts:
+- mount_path: /app/models
+  size_gb: 10

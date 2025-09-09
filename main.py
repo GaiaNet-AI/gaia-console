@@ -31,6 +31,25 @@ from fastapi.templating import Jinja2Templates
 # Load environment variables
 load_dotenv()
 
+# Detect DigitalOcean environment
+IS_DIGITAL_OCEAN = os.environ.get('DIGITALOCEAN_APP_ID') is not None
+
+if IS_DIGITAL_OCEAN:
+    print("🚀 Running on DigitalOcean App Platform")
+    # Ensure models directory exists
+    MODEL_DIR = Path("/app/models")
+    MODEL_DIR.mkdir(exist_ok=True)
+    
+    # Update paths for DigitalOcean
+    UPLOAD_DIR = Path("/tmp/uploads")
+    EMBEDDING_DIR = Path("/tmp/embeddings")
+    SNAPSHOT_DIR = Path("/tmp/snapshots")
+    WASM_DIR = Path("/app/wasm")
+    
+    # Create directories
+    for directory in [UPLOAD_DIR, EMBEDDING_DIR, SNAPSHOT_DIR, WASM_DIR]:
+        directory.mkdir(exist_ok=True, parents=True)
+        
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
